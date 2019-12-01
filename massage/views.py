@@ -1,7 +1,10 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import AddMassageSerializer, UpdateMessageSerializer, ListOfMassageSerializer, MassageSerializer
+from .serializers import AddMassageSerializer, UpdateMessageSerializer, ListOfMassageSerializer, MassageSerializer, \
+    ConversationSerializer, IdConversationSerializer
 from .models import Messages, Conversation
+from django.contrib.auth.models import User
+
 
 
 class Add_massage(APIView):
@@ -41,3 +44,26 @@ class Add_massage(APIView):
             return Response(list_of_massage)
         else:
             return Response({'text': 'please enter valid data'})
+
+
+class Conversations(APIView):
+    def get(self, request):
+        conv = Conversation.objects.all()
+        conv = ConversationSerializer(conv, many=True)
+        return Response(conv.data)
+
+    # def post(self, request):
+    #     conversation = MakeConversationSerializer(data=request.POST)
+    #     print(request.POST['members'])
+    #     if conversation.is_valid():
+    #         conversation.save()
+    #         return Response({'text': 'your conversation created'})
+    #     else:
+    #         return Response({'text': 'please enter valid data'})
+
+    def post(self, request):
+        conv_id = IdConversationSerializer(data=request.POST)
+        if conv_id.is_valid():
+            conv = Conversation.objects.get(id=request.POST['id'])
+            conv = ConversationSerializer(conv)
+            return Response(conv.data)

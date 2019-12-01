@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from .models import Messages
 from .models import Conversation
+from user.serializers import ListOfUserSerializer
+from django.contrib.auth.models import User
 
 
 class AddMassageSerializer(serializers.Serializer):
@@ -36,3 +38,21 @@ class MassageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Messages
         fields = '__all__'
+
+
+class ConversationSerializer(serializers.ModelSerializer):
+
+    members = ListOfUserSerializer(many=True)
+
+    class Meta:
+        model = Conversation
+        fields = '__all__'
+
+
+# class MakeConversationSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Conversation
+#         fields = ['name', 'members']
+
+class IdConversationSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
