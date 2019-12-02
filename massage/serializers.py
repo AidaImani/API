@@ -49,10 +49,10 @@ class ConversationSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-# class MakeConversationSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Conversation
-#         fields = ['name', 'members']
+class MakeConversationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Conversation
+        fields = ['name', 'members']
 
-class IdConversationSerializer(serializers.Serializer):
-    id = serializers.IntegerField()
+# class IdConversationSerializer(serializers.Serializer):
+#     id = serializers.IntegerField()
